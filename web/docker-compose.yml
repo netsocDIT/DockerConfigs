@@ -12,8 +12,8 @@ services:
       WORDPRESS_DB_NAME: wordpress
       VIRTUAL_HOST: investor.netsoc.dit.ie
     volumes:
-     - ./code:/code
-     - ./html:/var/www/html
+     - ./investor/code:/code
+     - ./investor/html:/var/www/html
 
   db:
     image: mysql:5.7
@@ -24,7 +24,7 @@ services:
       MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
 
-  wordpress:
+  wordpress1:
     image: wordpress
     restart: always
     environment:
@@ -34,10 +34,9 @@ services:
       WORDPRESS_DB_NAME: wordpress
       VIRTUAL_HOST: enactus.netsoc.dit.ie
     volumes:
-     - ./code:/code
-     - ./html:/var/www/html
-
-  db:
+     - ./enactus/code:/code
+     - ./enactus/html:/var/www/html
+  db1:
     image: mysql:5.7
     restart: always
     environment:
@@ -45,6 +44,12 @@ services:
       MYSQL_USER: NetSocAdmin
       MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
+
+  hello-world2:
+    image: crccheck/hello-world
+    container_name: hello-world2
+    environment:
+      VIRTUAL_HOST: backup01.netsoc.dit.ie
 
 networks:
   default:
