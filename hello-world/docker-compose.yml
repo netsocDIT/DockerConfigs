@@ -3,18 +3,13 @@ services:
   hello-world:
     image: crccheck/hello-world
     container_name: hello-world
-    expose:
-      - 80
     environment:
-      - VIRTUAL_HOST=enactus.netsoc.dit.ie
+      - VIRTUAL_HOST=investor.netsoc.dit.ie
   hello-world2:
     image: crccheck/hello-world
     container_name: hello-world2
-    expose:
-      - 80
     environment:
       - VIRTUAL_HOST=enactus.netsoc.dit.ie
-
 networks:
   default:
     external:
