@@ -6,14 +6,14 @@ services:
     expose:
       - 80
     environment:
-      VIRTUAL_HOST : enactus.netsoc.dit.ie
+      - VIRTUAL_HOST=enactus.netsoc.dit.ie
   hello-world2:
     image: crccheck/hello-world
     container_name: hello-world2
     expose:
       - 80
     environment:
-      VIRTUAL_HOST : backup01.netsoc.dit.ie
+      - VIRTUAL_HOST=enactus.netsoc.dit.ie
 
 networks:
   default:
