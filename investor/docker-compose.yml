@@ -25,6 +25,7 @@ services:
        WORDPRESS_DB_HOST: db_node_domain:3306
        WORDPRESS_DB_USER: wordpress
        WORDPRESS_DB_PASSWORD: PASSWORD
+       VIRTUAL_HOST : enactus.netsoc.dit.ie
      container_name: wordpress
 volumes:
     db_data:
