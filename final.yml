@@ -10,7 +10,7 @@ services:
       WORDPRESS_DB_USER: exampleuser
       WORDPRESS_DB_PASSWORD: examplepass
       WORDPRESS_DB_NAME: exampledb
-      VIRTUAL_HOST: investor.netsoc.dit.ie
+      VIRTUAL_HOST: enactus.netsoc.dit.ie
     volumes:
      - ./code:/code
      - ./html:/var/www/html
