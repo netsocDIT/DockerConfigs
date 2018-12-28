@@ -3,15 +3,15 @@ services:
   hello-world:
     image: crccheck/hello-world
     container_name: hello-world
-    ports:
-      - "80:80"
+    expose:
+      - 80
     environment:
       VIRTUAL_HOST : enactus.netsoc.dit.ie
   hello-world2:
     image: crccheck/hello-world
     container_name: hello-world2
-    ports:
-      - "80:80"
+    expose:
+      - 80
     environment:
       VIRTUAL_HOST : backup01.netsoc.dit.ie
 
