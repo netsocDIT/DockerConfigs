@@ -1,0 +1,7 @@
+version: 3
+services:
+  letsencrypt-nginx-proxy-companion:
+    volumes:
+      - '/docker/certs:/etc/nginx/certs:rw'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    image: jrcs/letsencrypt-nginx-proxy-companion
