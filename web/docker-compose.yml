@@ -28,7 +28,7 @@ services:
     image: wordpress
     restart: always
     environment:
-      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_HOST: db1
       WORDPRESS_DB_USER: NetSocAdmin
       WORDPRESS_DB_PASSWORD: P*2RI8Va4o)qsz!So7
       WORDPRESS_DB_NAME: wordpress
