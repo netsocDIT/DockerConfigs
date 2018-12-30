@@ -9,7 +9,7 @@ services:
       WORDPRESS_DB_HOST: investor_mysql
       WORDPRESS_DB_USER: NetSocAdmin
       WORDPRESS_DB_PASSWORD: P*2RI8Va4o)qsz!So7
-      WORDPRESS_DB_NAME: investor_wp
+      WORDPRESS_DB_NAME: wordpress
       VIRTUAL_HOST: investor.netsoc.dit.ie
       LETSENCRYPT_HOST: investor.netsoc.dit.ie
       LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
@@ -20,13 +20,13 @@ services:
   investor_mysql:
     image: mysql:5.7
     restart: unless-stopped
-    volumes:
-     - /docker/web/investor/.dbdata:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: investor_wp
+      MYSQL_DATABASE: wordpress
       MYSQL_USER: NetSocAdmin
       MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - /docker/web/investor/db:/var/lib/mysql
 
   enactus_wp:
     image: wordpress
@@ -46,13 +46,13 @@ services:
   enactus_mysql:
     image: mysql:5.7
     restart: unless-stopped
-    volumes:
-     - /docker/web/enactus/.dbdata:/var/lib/mysql
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: NetSocAdmin
       MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - /docker/web/enactus/db:/var/lib/mysql
 
   backup_wp:
     image: wordpress
@@ -72,13 +72,13 @@ services:
   backup_mysql:
     image: mysql:5.7
     restart: unless-stopped
-    volumes:
-     - /docker/web/backup/.dbdata:/var/lib/mysql
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: NetSocAdmin
       MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - /docker/web/backup/db:/var/lib/mysql
 
 
   nginx-proxy:
