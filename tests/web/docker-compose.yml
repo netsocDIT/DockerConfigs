@@ -1,0 +1,76 @@
+version: '3.1'
+
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: NetSocAdmin
+      WORDPRESS_DB_PASSWORD: P*2RI8Va4o)qsz!So7
+      WORDPRESS_DB_NAME: wordpress
+      VIRTUAL_HOST: investor.netsoc.dit.ie
+      LETSENCRYPT_HOST: investor.netsoc.dit.ie
+      LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
+      ACME_CA_URI: https://acme-staging.api.letsencrypt.org/directory
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+     - ./investor/code:/code
+     - ./investor/html:/var/www/html
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: NetSocAdmin
+      MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+
+  wordpress1:
+    image: wordpress
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db1
+      WORDPRESS_DB_USER: NetSocAdmin
+      WORDPRESS_DB_PASSWORD: P*2RI8Va4o)qsz!So7
+      WORDPRESS_DB_NAME: wordpress
+      VIRTUAL_HOST: enactus.netsoc.dit.ie
+      LETSENCRYPT_HOST: enactus.netsoc.dit.ie
+      LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
+      ACME_CA_URI: https://acme-staging.api.letsencrypt.org/directory
+    ports:
+      - "80:80"
+      - "443:443"
+
+    volumes:
+     - ./enactus/code:/code
+     - ./enactus/html:/var/www/html
+  db1:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: NetSocAdmin
+      MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+
+  hello-world2:
+    image: crccheck/hello-world
+    container_name: hello-world2
+    environment:
+      VIRTUAL_HOST: backup01.netsoc.dit.ie
+      LETSENCRYPT_HOST: backup01.netsoc.dit.ie
+      LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
+      ACME_CA_URI: https://acme-staging.api.letsencrypt.org/directory
+    ports:
+      - "80:80"
+      - "443:443"
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
