@@ -1,6 +1,8 @@
   investor_wp:
     image: wordpress
     restart: unless-stopped
+    depends_on:
+      - investor_mysql
     environment:
       WORDPRESS_DB_HOST: investor_mysql
       WORDPRESS_DB_USER: NetSocAdmin
@@ -10,8 +12,8 @@
       LETSENCRYPT_HOST: investor.netsoc.dit.ie
       LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
     volumes:
-     - ./investor/code:/code
-     - ./investor/html:/var/www/html
+     - ./code:/code
+     - ./html:/var/www/html
 
   investor_mysql:
     image: mysql:5.7
@@ -22,4 +24,4 @@
       MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
-      - /docker/web/investor/db:/var/lib/mysql
+      - /db:/var/lib/mysql
