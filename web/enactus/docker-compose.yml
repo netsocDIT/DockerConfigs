@@ -28,3 +28,8 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - /db:/var/lib/mysql
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
