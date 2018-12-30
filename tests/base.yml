@@ -4,12 +4,12 @@ services:
 
   investor_wp:
     image: wordpress
-
+    restart: unless-stopped
     environment:
-      WORDPRESS_DB_HOST: db1
+      WORDPRESS_DB_HOST: investor_mysql
       WORDPRESS_DB_USER: NetSocAdmin
       WORDPRESS_DB_PASSWORD: P*2RI8Va4o)qsz!So7
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_NAME: investor_wp
       VIRTUAL_HOST: investor.netsoc.dit.ie
       LETSENCRYPT_HOST: investor.netsoc.dit.ie
       LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
@@ -18,21 +18,26 @@ services:
      - ./investor/html:/var/www/html
 
   investor_mysql:
-    image: mariadb
-
+    image: mysql:5.7
+    restart: unless-stopped
+    volumes:
+     - /docker/web/investor/.dbdata:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: somepassword
+      MYSQL_DATABASE: investor_wp
+      MYSQL_USER: NetSocAdmin
+      MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
 
   enactus_wp:
     image: wordpress
-
+    restart: unless-stopped
     environment:
-      WORDPRESS_DB_HOST: db1
+      WORDPRESS_DB_HOST: enactus_mysql
       WORDPRESS_DB_USER: NetSocAdmin
       WORDPRESS_DB_PASSWORD: P*2RI8Va4o)qsz!So7
       WORDPRESS_DB_NAME: wordpress
       VIRTUAL_HOST: enactus.netsoc.dit.ie
-      LETSENCRYPT_HOST: investor.netsoc.dit.ie
+      LETSENCRYPT_HOST: enactus.netsoc.dit.ie
       LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
     volumes:
      - ./enactus/code:/code
@@ -40,7 +45,9 @@ services:
 
   enactus_mysql:
     image: mysql:5.7
-
+    restart: unless-stopped
+    volumes:
+     - /docker/web/enactus/.dbdata:/var/lib/mysql
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: NetSocAdmin
@@ -49,9 +56,9 @@ services:
 
   backup_wp:
     image: wordpress
-
+    restart: unless-stopped
     environment:
-      WORDPRESS_DB_HOST: db1
+      WORDPRESS_DB_HOST: backup_mysql
       WORDPRESS_DB_USER: NetSocAdmin
       WORDPRESS_DB_PASSWORD: P*2RI8Va4o)qsz!So7
       WORDPRESS_DB_NAME: wordpress
@@ -64,6 +71,9 @@ services:
 
   backup_mysql:
     image: mysql:5.7
+    restart: unless-stopped
+    volumes:
+     - /docker/web/backup/.dbdata:/var/lib/mysql
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: NetSocAdmin
@@ -73,7 +83,6 @@ services:
 
   nginx-proxy:
     image: jwilder/nginx-proxy
-
     ports:
       - "80:80"
       - "443:443"
@@ -81,11 +90,10 @@ services:
       - "/etc/nginx/vhost.d"
       - "/usr/share/nginx/html"
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
-      - "/etc/nginx/certs"
+      - /docker/certs:/etc/nginx/certs
 
   letsencrypt-nginx-proxy-companion:
     image: jrcs/letsencrypt-nginx-proxy-companion
-
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     volumes_from:
