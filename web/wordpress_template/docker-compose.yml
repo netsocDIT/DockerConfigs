@@ -17,7 +17,7 @@ services:
     volumes:
      - /Docker/storage/Enactus/code:/code
      - /Docker/storage/Enactus/html:/var/www/html
-     - /Docker/storage/Enactus/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+     -./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
 
   enactus_mysql:
     image: mysql:5.7
