@@ -17,6 +17,7 @@ services:
     volumes:
      - /Docker/storage/investor/code:/code
      - /Docker/storage/investor/html:/var/www/html
+     - /Docker/storage/investor/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
 
   investor_mysql:
     image: mysql:5.7
