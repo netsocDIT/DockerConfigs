@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  netsoc_web:
+    image: httpd
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: netsoc.dit.ie
+      LETSENCRYPT_HOST: netsoc.dit.ie
+      LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
+    volumes:
+     - ./html:/usr/local/apache2/htdocs/
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
