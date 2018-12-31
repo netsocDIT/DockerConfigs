@@ -1,19 +1,24 @@
-  investor_wp:
+version: '2'
+
+services:
+  enactus_wp:
     image: wordpress
     restart: unless-stopped
+    depends_on:
+      - enactus_mysql
     environment:
-      WORDPRESS_DB_HOST: investor_mysql
+      WORDPRESS_DB_HOST: enactus_mysql
       WORDPRESS_DB_USER: NetSocAdmin
       WORDPRESS_DB_PASSWORD: P*2RI8Va4o)qsz!So7
       WORDPRESS_DB_NAME: wordpress
-      VIRTUAL_HOST: investor.netsoc.dit.ie
-      LETSENCRYPT_HOST: investor.netsoc.dit.ie
+      VIRTUAL_HOST: enactus.netsoc.dit.ie
+      LETSENCRYPT_HOST: enactus.netsoc.dit.ie
       LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
     volumes:
-     - ./investor/code:/code
-     - ./investor/html:/var/www/html
+     - /Docker/storage/Enactus/code:/code
+     - /Docker/storage/Enactus/html:/var/www/html
 
-  investor_mysql:
+  enactus_mysql:
     image: mysql:5.7
     restart: unless-stopped
     environment:
@@ -22,4 +27,9 @@
       MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
-      - /docker/web/investor/db:/var/lib/mysql
+      - /Docker/storage/Enactus/db:/var/lib/mysql
+
+networks:
+  default:
+    external:
+      name: nginx-proxy

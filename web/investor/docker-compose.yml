@@ -15,8 +15,8 @@ services:
       LETSENCRYPT_HOST: investor.netsoc.dit.ie
       LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
     volumes:
-     - ./code:/code
-     - ./html:/var/www/html
+     - /Docker/storage/investor/code:/code
+     - /Docker/storage/investor/html:/var/www/html
 
   investor_mysql:
     image: mysql:5.7
@@ -27,7 +27,7 @@ services:
       MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
-      - /db:/var/lib/mysql
+      - /Docker/storage/investor/db:/var/lib/mysql
 
 networks:
   default:

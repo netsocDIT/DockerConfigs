@@ -9,7 +9,7 @@ services:
       LETSENCRYPT_HOST: netsoc.dit.ie
       LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
     volumes:
-     - ./html:/usr/local/apache2/htdocs/
+     - /Docker/storage/NetSoc.dit.ie:/usr/local/apache2/htdocs/
 
 networks:
   default:
