@@ -15,8 +15,8 @@ services:
       LETSENCRYPT_HOST: enactus.netsoc.dit.ie
       LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
     volumes:
-     - /Docker/storage/Enactus/code:/code
-     - /Docker/storage/Enactus/html:/var/www/html
+     - /docker/storage/Enactus/code:/code
+     - /docker/storage/Enactus/html:/var/www/html/wp-content
      -./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
 
   enactus_mysql:
@@ -28,7 +28,7 @@ services:
       MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
-      - /Docker/storage/Enactus/db:/var/lib/mysql
+      - /docker/storage/Enactus/db:/var/lib/mysql
 
 networks:
   default:

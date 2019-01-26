@@ -15,8 +15,8 @@ services:
       LETSENCRYPT_HOST: wp-test.netsoc.dit.ie
       LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
     volumes:
-     - /Docker/storage/wp-test/code:/code
-     - /Docker/storage/wp-test/html:/var/www/html
+     - /docker/storage/wp-test/code:/code
+     - /docker/storage/wp-test/html:/var/www/html
      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
 
   wp-test_mysql:
@@ -28,7 +28,7 @@ services:
       MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
-      - /Docker/storage/wp-test/db:/var/lib/mysql
+      - /docker/storage/wp-test/db:/var/lib/mysql
 
 networks:
   default:
