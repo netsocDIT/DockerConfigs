@@ -16,7 +16,7 @@ services:
       LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
     volumes:
      - /docker/storage/Enactus/code:/code
-     - /docker/storage/Enactus/html:/var/www/html/wp-content
+     - /docker/storage/Enactus/html/wp-content:/var/www/html/wp-content
      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
 
   enactus_mysql:

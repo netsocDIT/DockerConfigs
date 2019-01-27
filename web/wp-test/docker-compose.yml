@@ -16,7 +16,7 @@ services:
       LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
     volumes:
      - /docker/storage/wp-test/code:/code
-     - /docker/storage/wp-test/html:/var/www/html/wp-content
+     - /docker/storage/wp-test/html/wp-content:/var/www/html/wp-content
      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
 
   wp-test_mysql:
