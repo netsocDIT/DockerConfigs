@@ -8,9 +8,9 @@ services:
       - enactus_mysql
     environment:
       WORDPRESS_DB_HOST: enactus_mysql
-      WORDPRESS_DB_USER: NetSocAdmin
-      WORDPRESS_DB_PASSWORD: P*2RI8Va4o)qsz!So7
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
       VIRTUAL_HOST: enactus.netsoc.dit.ie
       LETSENCRYPT_HOST: enactus.netsoc.dit.ie
       LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
@@ -23,9 +23,10 @@ services:
     image: mysql:5.7
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: NetSocAdmin
-      MYSQL_PASSWORD: P*2RI8Va4o)qsz!So7
+     environment:
+       MYSQL_DATABASE: ${MYSQL_DATABASE}
+       MYSQL_USER: ${MYSQL_USER}
+       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - /docker/storage/Enactus/db:/var/lib/mysql
