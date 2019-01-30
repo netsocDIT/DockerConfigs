@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  dns:
+    image: ventz/bind
+    restart: always
+    ports:
+      - 53:53
+    volumes:
+      - /docker/storage/dns:/etc/bind
+      - /docker/storage/dns:/var/cache/bind
