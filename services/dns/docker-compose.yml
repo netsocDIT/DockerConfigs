@@ -9,4 +9,4 @@ services:
       - 53:53/udp
     volumes:
       - /docker/storage/dns/named.conf:/etc/bind/named.conf
-      - /docker/storage/dns/truesdale.ovh:/etc/bind/truesdale.ovh
+      - /docker/storage/dns/truesdale.ovh:/etc/bind/master/truesdale.ovh
