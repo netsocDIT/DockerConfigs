@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  NetSoc-DNS03:
+    image: tomcraftmc/bind9-dns:latest
+    restart: always
+    ports:
+      - 147.252.127.9:53:53
+      - 147.252.127.9:53:53/udp
+    volumes:
+      - /docker/storage/dns-resolve/named.conf:/etc/bind/named.conf
