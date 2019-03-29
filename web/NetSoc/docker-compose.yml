@@ -1,17 +1,24 @@
-version: '2'
-
+version: '3.3'
 services:
-  netsoc_web:
+  arthur_web:
     image: httpd
-    restart: unless-stopped
-    environment:
-      VIRTUAL_HOST: netsoc.dit.ie
-      LETSENCRYPT_HOST: netsoc.dit.ie
-      LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
+    deploy:
+      labels:
+        - traefik.frontend.rule=Host:bics.netsoc.dit.ie
+        - traefik.enable=true
+        - traefik.port=80
+        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
+        - traefik.docker.network=traefik-public
+        # Traefik service that listens to HTTP
+        - traefik.redirectorservice.frontend.entryPoints=http
+        - traefik.redirectorservice.frontend.redirect.entryPoint=https
+        # Traefik service that listens to HTTPS
+        - traefik.webservice.frontend.entryPoints=https
     volumes:
-     - /docker/storage/NetSoc.dit.ie/Comp-Web:/usr/local/apache2/htdocs/
+      - /docker/storage/NetSoc.dit.ie/Comp-Web:/usr/local/apache2/htdocs/
+    networks:
+      - traefik-public
 
 networks:
-  default:
-    external:
-      name: nginx-proxy
+  traefik-public:
+    external: true
