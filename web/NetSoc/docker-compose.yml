@@ -1,10 +1,10 @@
 version: '3.3'
 services:
-  arthur_web:
+  netsoc:
     image: httpd
     deploy:
       labels:
-        - traefik.frontend.rule=Host:bics.netsoc.dit.ie
+        - traefik.frontend.rule=Host:netsoc.dit.ie
         - traefik.enable=true
         - traefik.port=80
         - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
