@@ -10,7 +10,7 @@ services:
     volumes:
       - /docker/storage/investor/db:/var/lib/mysql
 
-  netsoc:
+  investor_web:
     image: wordpress
     deploy:
       depends_on:
@@ -20,15 +20,12 @@ services:
         WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
         WORDPRESS_DB_USER: ${MYSQL_USER}
         WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-        VIRTUAL_HOST: investor.netsoc.dit.ie
-        LETSENCRYPT_HOST: investor.netsoc.dit.ie
-        LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
       volumes:
        - /docker/storage/investor/code:/code
        - /docker/storage/investor/html/wp-content:/var/www/html/wp-content
        - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
       labels:
-        - traefik.frontend.rule=Host:netsoc.dit.ie
+        - traefik.frontend.rule=Host:investor.netsoc.dit.ie
         - traefik.enable=true
         - traefik.port=80
         - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
