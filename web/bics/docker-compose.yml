@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  arthur_web:
+  bics:
     image: httpd
     deploy:
       labels:
