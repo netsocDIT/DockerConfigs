@@ -11,6 +11,8 @@ services:
       - /docker/storage/investor/db:/var/lib/mysql
     deploy:
       replicas: 1
+    networks:
+      - traefik-public
 
   investor_web:
     image: wordpress
