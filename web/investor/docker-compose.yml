@@ -3,9 +3,9 @@ services:
   investor_mysql:
     image: mysql:5.7
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${wpdb}
+      MYSQL_USER: ${sqluser}
+      MYSQL_PASSWORD: ${sqlpasswd}
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - /docker/storage/investor/db:/var/lib/mysql
@@ -18,9 +18,9 @@ services:
     image: wordpress
     environment:
       WORDPRESS_DB_HOST: investor_mysql
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${wpdb}
+      WORDPRESS_DB_USER: ${sqluser}
+      WORDPRESS_DB_PASSWORD: ${sqlpasswd}
     volumes:
       - /docker/storage/investor/code:/code
       - /docker/storage/investor/html/wp-content:/var/www/html/wp-content
