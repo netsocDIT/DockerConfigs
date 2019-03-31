@@ -11,6 +11,10 @@ services:
       - /docker/storage/investor/db:/var/lib/mysql
     deploy:
       replicas: 1
+    secrets:
+      - wpdb
+      - sqluser
+      - sqlpasswd
     networks:
       - traefik-public
 
@@ -38,8 +42,23 @@ services:
         - traefik.redirectorservice.frontend.redirect.entryPoint=https
         # Traefik service that listens to HTTPS
         - traefik.webservice.frontend.entryPoints=https
+    secrets:
+      - wpdb
+      - sqluser
+      - sqlpasswd
     networks:
       - traefik-public
+
+secrets:
+  wpdb:
+    external:
+    name: wpdb
+  sqluser:
+    external:
+    name: sqluser
+  sqlpasswd:
+    external:
+    name: sqlpasswd
 
 networks:
   traefik-public:
