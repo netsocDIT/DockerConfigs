@@ -10,6 +10,7 @@ services:
     volumes:
       - /docker/storage/dns/named.conf:/etc/bind/named.conf
       - /docker/storage/dns/master/netsoc.dit.ie:/etc/bind/master/netsoc.dit.ie
+      - /docker/storage/dns/master/db.socs.dit.ie:/etc/bind/master/db.socs.dit.ie
       - /docker/storage/dns/master/db.127.252.147.in-addr.arpa:/etc/bind/master/db.127.252.147.in-addr.arpa
       - /docker/storage/dns/named.conf.socs:/etc/bind/named.conf.socs
       - /docker/storage/dns/zones/socs:/etc/bind/zones/socs/
