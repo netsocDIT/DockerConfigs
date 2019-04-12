@@ -1,36 +1,62 @@
-version: '2'
-
+version: '3.3'
 services:
-  wp-test_wp:
-    image: wordpress
-    restart: unless-stopped
-    depends_on:
-      - wp-test_mysql
-    environment:
-      WORDPRESS_DB_HOST: wp-test_mysql
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-      VIRTUAL_HOST: wp-test.netsoc.dit.ie
-      LETSENCRYPT_HOST: wp-test.netsoc.dit.ie
-      LETSENCRYPT_EMAIL: netsoc@socs.dit.ie
-    volumes:
-     - /docker/storage/wp-test/code:/code
-     - /docker/storage/wp-test/html/wp-content:/var/www/html/wp-content
-     - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
-
-  wp-test_mysql:
+  investor_mysql:
     image: mysql:5.7
-    restart: unless-stopped
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE_FILE: /run/secrets/pg_database
+      MYSQL_USER_FILE: /run/secrets/pg_user
+      MYSQL_PASSWORD_FILE: /run/secrets/pg_password
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - /docker/storage/wp-test/db:/var/lib/mysql
+    secrets:
+      - pg_password
+      - pg_user
+      - pg_database
+    deploy:
+      replicas: 1
+    networks:
+      - traefik-public
+
+  investor_web:
+    image: wordpress
+    environment:
+      WORDPRESS_DB_HOST: investor_mysql
+      WORDPRESS_DB_NAME_FILE: /run/secrets/pg_database
+      WORDPRESS_DB_USER_FILE: /run/secrets/pg_user
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/pg_password
+    volumes:
+      - /docker/storage/wp-test/code:/code
+      - /docker/storage/wp-test/html/wp-content:/var/www/html/wp-content
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    secrets:
+      - pg_password
+      - pg_user
+      - pg_database
+    deploy:
+      replicas: 1
+      labels:
+        - traefik.frontend.rule=Host:wp-test.netsoc.dit.ie
+        - traefik.enable=true
+        - traefik.port=80
+        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
+        - traefik.docker.network=traefik-public
+        # Traefik service that listens to HTTP
+        - traefik.redirectorservice.frontend.entryPoints=http
+        - traefik.redirectorservice.frontend.redirect.entryPoint=https
+        # Traefik service that listens to HTTPS
+        - traefik.webservice.frontend.entryPoints=https
+    networks:
+      - traefik-public
+
+secrets:
+  pg_user:
+    external: true
+  pg_password:
+    external: true
+  pg_database:
+    external: true
 
 networks:
-  default:
-    external:
-      name: nginx-proxy
+  traefik-public:
+    external: true
