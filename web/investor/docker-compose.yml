@@ -3,18 +3,14 @@ services:
   investor_mysql:
     image: mysql:5.7
     environment:
-      MYSQL_DATABASE: ${wpdb}
-      MYSQL_USER: ${sqluser}
-      MYSQL_PASSWORD: ${sqlpasswd}
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: NetsocAdmin
+      MYSQL_PASSWORD: 91rZYmH9uBGY0OCEZdyz
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - /docker/storage/investor/db:/var/lib/mysql
     deploy:
       replicas: 1
-    secrets:
-      - wpdb
-      - sqluser
-      - sqlpasswd
     networks:
       - traefik-public
 
@@ -22,9 +18,9 @@ services:
     image: wordpress
     environment:
       WORDPRESS_DB_HOST: investor_mysql
-      WORDPRESS_DB_NAME: ${wpdb}
-      WORDPRESS_DB_USER: ${sqluser}
-      WORDPRESS_DB_PASSWORD: ${sqlpasswd}
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: NetSocAdmin
+      WORDPRESS_DB_PASSWORD: 91rZYmH9uBGY0OCEZdyz
     volumes:
       - /docker/storage/investor/code:/code
       - /docker/storage/investor/html/wp-content:/var/www/html/wp-content
@@ -42,23 +38,8 @@ services:
         - traefik.redirectorservice.frontend.redirect.entryPoint=https
         # Traefik service that listens to HTTPS
         - traefik.webservice.frontend.entryPoints=https
-    secrets:
-      - wpdb
-      - sqluser
-      - sqlpasswd
     networks:
       - traefik-public
-
-secrets:
-  wpdb:
-    external:
-    name: wpdb
-  sqluser:
-    external:
-    name: sqluser
-  sqlpasswd:
-    external:
-    name: sqlpasswd
 
 networks:
   traefik-public:
