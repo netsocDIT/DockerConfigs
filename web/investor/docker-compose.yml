@@ -3,9 +3,9 @@ services:
   investor_mysql:
     image: mysql:5.7
     environment:
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: NetsocAdmin
-      MYSQL_PASSWORD: 91rZYmH9uBGY0OCEZdyz
+      MYSQL_DATABASE_FILE: /run/secrets/pg_database
+      MYSQL_USER_FILE: /run/secrets/pg_user
+      MYSQL_PASSWORD_FILE: /run/secrets/pg_password
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - /docker/storage/investor/db:/var/lib/mysql
@@ -18,9 +18,9 @@ services:
     image: wordpress
     environment:
       WORDPRESS_DB_HOST: investor_mysql
-      WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_DB_USER: NetSocAdmin
-      WORDPRESS_DB_PASSWORD: 91rZYmH9uBGY0OCEZdyz
+      WORDPRESS_DB_NAME_FILE: /run/secrets/pg_database
+      WORDPRESS_DB_USER_FILE: /run/secrets/pg_user
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/pg_password
     volumes:
       - /docker/storage/investor/code:/code
       - /docker/storage/investor/html/wp-content:/var/www/html/wp-content
