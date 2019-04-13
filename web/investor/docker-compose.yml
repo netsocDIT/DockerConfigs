@@ -4,14 +4,14 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_DATABASE_FILE: /run/secrets/sql_database
-      MYSQL_USER_FILE: /run/secrets/wp_user
+      MYSQL_USER_FILE: /run/secrets/sql_user
       MYSQL_PASSWORD_FILE: /run/secrets/sql_password
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - /docker/storage/investor/db:/var/lib/mysql
     secrets:
       - sql_password
-      - wp_user
+      - sql_user
       - sql_database
     deploy:
       replicas: 1
@@ -23,7 +23,7 @@ services:
     environment:
       WORDPRESS_DB_HOST: investor_mysql
       WORDPRESS_DB_NAME_FILE: /run/secrets/sql_database
-      WORDPRESS_DB_USER_FILE: /run/secrets/wp_user
+      WORDPRESS_DB_USER_FILE: /run/secrets/sql_user
       WORDPRESS_DB_PASSWORD_FILE: /run/secrets/sql_password
     volumes:
       - /docker/storage/investor/code:/code
@@ -31,7 +31,7 @@ services:
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     secrets:
       - sql_password
-      - wp_user
+      - sql_user
       - sql_database
     deploy:
       replicas: 1
@@ -46,6 +46,7 @@ services:
         - traefik.redirectorservice.frontend.redirect.entryPoint=https
         # Traefik service that listens to HTTPS
         - traefik.webservice.frontend.entryPoints=https
+        - com.ouroboros.enable=true
     networks:
       - traefik-public
 
