@@ -3,16 +3,16 @@ services:
   investor_mysql:
     image: mysql:5.7
     environment:
-      MYSQL_DATABASE_FILE: /run/secrets/pg_database
-      MYSQL_USER_FILE: /run/secrets/pg_user
-      MYSQL_PASSWORD_FILE: /run/secrets/pg_password
+      MYSQL_DATABASE_FILE: /run/secrets/sql_database
+      MYSQL_USER_FILE: /run/secrets/sql_user
+      MYSQL_PASSWORD_FILE: /run/secrets/sql_password
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - /docker/storage/wp-test/db:/var/lib/mysql
     secrets:
-      - pg_password
-      - pg_user
-      - pg_database
+      - sql_password
+      - sql_user
+      - sql_database
     deploy:
       replicas: 1
     networks:
@@ -22,17 +22,17 @@ services:
     image: wordpress
     environment:
       WORDPRESS_DB_HOST: investor_mysql
-      WORDPRESS_DB_NAME_FILE: /run/secrets/pg_database
-      WORDPRESS_DB_USER_FILE: /run/secrets/pg_user
-      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/pg_password
+      WORDPRESS_DB_NAME_FILE: /run/secrets/sql_database
+      WORDPRESS_DB_USER_FILE: /run/secrets/sql_user
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/sql_password
     volumes:
       - /docker/storage/wp-test/code:/code
       - /docker/storage/wp-test/html/wp-content:/var/www/html/wp-content
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     secrets:
-      - pg_password
-      - pg_user
-      - pg_database
+      - sql_password
+      - sql_user
+      - sql_database
     deploy:
       replicas: 1
       labels:
@@ -50,11 +50,11 @@ services:
       - traefik-public
 
 secrets:
-  pg_user:
+  sql_user:
     external: true
-  pg_password:
+  sql_password:
     external: true
-  pg_database:
+  sql_database:
     external: true
 
 networks:
