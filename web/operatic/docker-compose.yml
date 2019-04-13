@@ -9,6 +9,10 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - /docker/storage/operatic/db:/var/lib/mysql
+    secrets:
+      - pg_password
+      - pg_user
+      - pg_database
     deploy:
       replicas: 1
     networks:
@@ -25,6 +29,10 @@ services:
       - /docker/storage/operatic/code:/code
       - /docker/storage/operatic/html/wp-content:/var/www/html/wp-content
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    secrets:
+      - pg_password
+      - pg_user
+      - pg_database
     deploy:
       replicas: 1
       labels:
@@ -40,6 +48,14 @@ services:
         - traefik.webservice.frontend.entryPoints=https
     networks:
       - traefik-public
+
+secrets:
+  pg_user:
+    external: true
+  pg_password:
+    external: true
+  pg_database:
+    external: true
 
 networks:
   traefik-public:
