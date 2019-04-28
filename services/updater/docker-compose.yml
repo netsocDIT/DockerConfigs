@@ -3,7 +3,6 @@ version: '3.3'
 services:
   ouroboros:
     image: pyouroboros/ouroboros
-    deploy:
     environment:
       - SWARM=true
       - CLEANUP=true
@@ -12,6 +11,7 @@ services:
       - SELF_UPDATE=true
       - IGNORE=mongo influxdb postgres mariadb
       - TZ=America/Chicago
+    deploy:
       replicas: 1
       placement:
         constraints:
